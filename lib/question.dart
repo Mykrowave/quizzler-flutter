@@ -5,8 +5,8 @@ question3: 'A slug\'s blood is green.', true,
 */
 class Question{
 
-  final String questionText;
-  final bool questionAnswer;
+  String questionText;
+  bool questionAnswer;
 
-  const Question({this.questionText, this.questionAnswer});
+  Question(this.questionText, this.questionAnswer);
 }
