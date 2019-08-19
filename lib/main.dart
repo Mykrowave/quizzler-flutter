@@ -30,8 +30,6 @@ class _QuizPageState extends State<QuizPage> {
 
   final QuizBrain _quizBrain = new QuizBrain();
 
-  int _currentQuestionIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,7 +42,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                _quizBrain.questions[_currentQuestionIndex].questionText,
+                _quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -58,26 +56,20 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
-              child: Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+                textColor: Colors.white,
+                color: Colors.green,
+                child: Text(
+                  'True',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
                 ),
-              ),
-              onPressed: () {
-                setState(() {
-                  markScore(
-                      true, _quizBrain.questions[_currentQuestionIndex].questionAnswer);
-                  _currentQuestionIndex =
-                      (_currentQuestionIndex >= _quizBrain.questions.length - 1)
-                          ? 0
-                          : _currentQuestionIndex + 1;
-                });
-              },
-            ),
+                onPressed: () {
+                  setState(() {
+                    markScore(true);
+                  });
+                }),
           ),
         ),
         Expanded(
@@ -94,12 +86,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() {
-                  markScore(
-                      false, _quizBrain.questions[_currentQuestionIndex].questionAnswer);
-                  _currentQuestionIndex =
-                      (_currentQuestionIndex >= _quizBrain.questions.length - 1)
-                          ? 0
-                          : _currentQuestionIndex + 1;
+                  markScore(false);
                 });
               },
             ),
@@ -114,11 +101,13 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  void markScore(bool answer, bool correctAnswer) {
-    if (answer == correctAnswer)
+  void markScore(bool answer) {
+    if (_quizBrain.isAnswerCorrect(answer))
       _scoreKeeper.add(Icon(Icons.check, color: Colors.green));
     else
       _scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+
+    _quizBrain.nextQuestion();
   }
 }
 

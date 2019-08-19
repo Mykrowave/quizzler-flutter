@@ -2,7 +2,9 @@ import 'question.dart';
 
 class QuizBrain {
 
-  final List<Question> questions = [
+  int _questionIndex = 0;
+
+  final List<Question> _questions = [
     Question('Some cats are actually allergic to humans', true),
     Question('You can lead a cow down stairs but not up stairs.', false),
     Question('Approximately one quarter of human bones are in the feet.', true),
@@ -30,5 +32,21 @@ class QuizBrain {
         true)
   ];
 
+  void nextQuestion(){
+    if(_questionIndex < _questions.length - 1)
+      _questionIndex++;
+  }
+
+  String getQuestionText(){
+    return _questions[_questionIndex].questionText;
+  }
+  bool getQuestionAnswer(){
+    return _questions[_questionIndex].questionAnswer;
+  }
+
+  bool isAnswerCorrect(bool answer){
+    return _questions[_questionIndex].questionAnswer == answer;
+  }
+  
 
 }
