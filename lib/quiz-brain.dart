@@ -48,5 +48,12 @@ class QuizBrain {
     return _questions[_questionIndex].questionAnswer == answer;
   }
   
+  bool isEndOfQuiz(){
+    return (_questionIndex >= _questions.length - 1);
+  }
+
+  void resetQuiz(){
+    _questionIndex = 0;
+  }
 
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzler/quiz-brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(Quizzler());
 
@@ -108,6 +109,31 @@ class _QuizPageState extends State<QuizPage> {
       _scoreKeeper.add(Icon(Icons.close, color: Colors.red));
 
     _quizBrain.nextQuestion();
+    endOfQuizCheck();
+  }
+
+  void endOfQuizCheck() {
+    if (_quizBrain.isEndOfQuiz()) {
+      Alert(
+          context: context,
+          type: AlertType.success,
+          title: "Quiz Complete",
+          desc: "Thanks for taking the Quiz",
+          buttons: [
+            DialogButton(
+              child: Text('COOL!'),
+              onPressed: () {
+                setState(() {
+                  _quizBrain.resetQuiz();
+                  _scoreKeeper.clear();
+                });
+
+                Navigator.pop(context);
+              },
+              width: 120,
+            )
+          ]).show();
+    }
   }
 }
 
